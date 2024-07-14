@@ -1,0 +1,29 @@
+parameters:
+    folders.data.language_detection.polyglot.failed: "%kernel.project_dir%/data/language-detection/polyglot/failed/"
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true
+
+    Lingua\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+            - '../src/Dto/'
+
+    GuzzleHttp\Client:
+        public: true
+
+    Lingua\Service\LanguageDetection\Polyglot:
+        calls:
+            - isPolyglotInstalled: []
+
+    Lingua\Service\LanguageDetection\Polyglot\PolyglotBulkDetection:
+        arguments:
+            $failedDetectionsFolder: '%folders.data.language_detection.polyglot.failed%'

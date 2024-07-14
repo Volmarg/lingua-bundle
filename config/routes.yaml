@@ -1,0 +1,3 @@
+test:
+    path: /test
+    controller: Lingua\Controller\TestController::test
